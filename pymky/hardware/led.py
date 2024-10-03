@@ -8,7 +8,7 @@ class Leds:
     __refresh = True
 
     @classmethod
-    def Init(cls):
+    def Init(cls) -> None:
         cls.count = board["leds"]["count"]
         cls.__pixels = NeoPixel(board["leds"]["pin"], cls.count)
         cls.__refresh = True
@@ -17,12 +17,12 @@ class Leds:
         cls.Write()
 
     @classmethod
-    def Set(cls, pixel_id, rgb):
+    def Set(cls, pixel_id, rgb) -> None:
         cls.__pixels[pixel_id] = rgb
         cls.__refresh = True
 
     @classmethod
-    def Write(cls):
+    def Write(cls) -> None:
         if cls.__refresh:
             cls.__pixels.write()
             cls.__refresh = False

@@ -18,6 +18,11 @@ def init() -> None:
 
 def main() -> None:
     init()
+
+    print()
+    print("#" * 120)
+    print("# LOOP")
+    print("#" * 120)
     while True:
         scan()
 
