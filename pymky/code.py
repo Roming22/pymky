@@ -1,8 +1,9 @@
 from time import sleep
 
 from hardware.board import board
+from hardware.keypad import Keypad
 from hardware.led import Leds
-from logic.blink import blink
+from logic.scan import scan
 
 
 def init() -> None:
@@ -12,12 +13,13 @@ def init() -> None:
     print("#" * 120)
 
     Leds.Init()
+    Keypad.Init()
 
 
 def main() -> None:
     init()
     while True:
-        blink()
+        scan()
 
 
 if __name__ == "__main__":
