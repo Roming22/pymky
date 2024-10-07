@@ -1,37 +1,65 @@
-from collections import deque
+import time
 
+import digitalio
 from hardware.board import board
-from keypad import Event, KeyMatrix
 from logic.eventmanager import EventManager
 
 
 class Keypad:
     count = 0
-    __keys = None
-    __pool = deque([Event()] * 64, 64)
+    __cols = []
+    __rows = []
+    __debounce_delay = 5 * 1e-3
+    __switch_debounce = []
+    __switch_value = []
 
     @classmethod
     def Init(cls) -> None:
-        cls.__keys = KeyMatrix(
-            row_pins=board["pins"]["rows"],
-            column_pins=board["pins"]["cols"],
-            interval=0.001,
-            debounce_threshold=25,
-        )
-        cls.count = cls.__keys.key_count
+        def init_col(pin):
+            io = digitalio.DigitalInOut(pin)
+            io.direction = digitalio.Direction.INPUT
+            io.pull = digitalio.Pull.UP
+            return io
+
+        def init_row(pin):
+            io = digitalio.DigitalInOut(pin)
+            io.direction = digitalio.Direction.OUTPUT
+            io.drive_mode = digitalio.DriveMode.PUSH_PULL
+            io.value = 0
+            return io
+
+        cls.__cols = [init_col(pin) for pin in board["pins"]["cols"]]
+        cls.__rows = [init_row(pin) for pin in board["pins"]["rows"]]
+        cls.count = len(cls.__cols) * len(cls.__rows)
+        cls.__switch_debounce = [0 for _ in range(cls.count)]
+        cls.__switch_value = [False for _ in range(cls.count)]
 
     @classmethod
-    def Release(cls, event) -> None:
-        cls.__pool.append(event)
-
-    @classmethod
-    def Reset(cls) -> None:
-        cls.__keys.reset()
+    def _Matrix_Scan(cls):
+        index = -1
+        for row in cls.__rows:
+            row.value = 0
+            for col in cls.__cols:
+                index += 1
+                yield index, not col.value
+            row.value = 1
 
     @classmethod
     def Scan(cls) -> None:
-        event = cls.__pool.pop()
-        while cls.__keys.events.get_into(event):
-            EventManager.AddEvent(event)
-            event = cls.__pool.pop()
-        cls.Release(event)
+        now = time.monotonic()
+        for index, value in cls._Matrix_Scan():
+            if (
+                value != cls.__switch_value[index]
+                and now > cls.__switch_debounce[index]
+            ):
+                cls.__switch_debounce[index] = now + cls.__debounce_delay
+                cls.__switch_value[index] = value
+                event = (
+                    now,
+                    (
+                        "switch",
+                        index + 1,
+                        value,
+                    ),
+                )
+                EventManager.AddEvent(event)
