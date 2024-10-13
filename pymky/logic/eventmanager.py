@@ -10,7 +10,7 @@ class EventManager:
     __now = 0
 
     @classmethod
-    def AddEvent(cls, event):
+    def AddEvent(cls, event) -> None:
         if cls.__blocker and cls.__blocker.Process(event):
             cls.__blocker = None
         cls.__buffer.append(event)

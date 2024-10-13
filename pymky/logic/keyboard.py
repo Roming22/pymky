@@ -1,18 +1,20 @@
 from hardware.led import Leds
 from logic.eventmanager import EventManager
 from logic.events import scan
-from logic.events.keypad import Keypad
+from logic.events.switch import Switch
 
 
-def init() -> None:
-    Keypad.Init()
-    Leds.Init()
+class Keyboard:
+    @classmethod
+    def Init(_) -> None:
+        Switch.Init()
+        Leds.Init()
 
-
-def tick() -> None:
-    scan()
-    EventManager.Process()
-    blink()
+    @classmethod
+    def Tick(_) -> None:
+        scan()
+        EventManager.Process()
+        blink()
 
 
 from logic.context import Context

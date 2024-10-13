@@ -1,4 +1,4 @@
-from logic import init, tick
+from logic.keyboard import Keyboard
 
 
 def boot() -> None:
@@ -6,7 +6,7 @@ def boot() -> None:
     print("#" * 120)
     print("# BOOTING")
     print("#" * 120)
-    init()
+    Keyboard.Init()
 
 
 def main() -> None:
@@ -17,7 +17,7 @@ def main() -> None:
     print("# LOOP")
     print("#" * 120)
     while True:
-        tick()
+        Keyboard.Tick()
 
 
 if __name__ == "__main__":

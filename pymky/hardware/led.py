@@ -1,4 +1,4 @@
-from hardware.board import board
+from config.board import board
 from neopixel import NeoPixel
 
 

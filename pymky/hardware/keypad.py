@@ -1,8 +1,5 @@
-import time
-
 import digitalio
-from hardware.board import board
-from logic.eventmanager import EventManager
+from config.board import board
 
 
 class Keypad:
@@ -12,13 +9,13 @@ class Keypad:
 
     @classmethod
     def Init(cls) -> None:
-        def init_col(pin):
+        def init_col(pin) -> None:
             io = digitalio.DigitalInOut(pin)
             io.direction = digitalio.Direction.INPUT
             io.pull = digitalio.Pull.UP
             return io
 
-        def init_row(pin):
+        def init_row(pin) -> None:
             io = digitalio.DigitalInOut(pin)
             io.direction = digitalio.Direction.OUTPUT
             io.drive_mode = digitalio.DriveMode.PUSH_PULL
@@ -30,7 +27,7 @@ class Keypad:
         cls.count = len(cls.__cols) * len(cls.__rows)
 
     @classmethod
-    def Matrix_Scan(cls):
+    def Matrix_Scan(cls) -> Generator[tuple[int, bool]]:
         index = -1
         for row in cls.__rows:
             row.value = 0

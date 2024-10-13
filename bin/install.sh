@@ -33,11 +33,11 @@ parse_args(){
         case $1 in
             -b|--board)
                 shift
-                BOARD="./boards/$1.py"
+                BOARD="$PROJECT_DIR/config/boards/$1.py"
                 ;;
             -l|--layout)
                 shift
-                LAYOUT="$PROJECT_DIR/pymky/layouts/$1.py"
+                LAYOUT="$PROJECT_DIR/config/layout/$1.py"
                 ;;
             --dev)
                 DEV_MODE="1"
@@ -184,7 +184,12 @@ sync_drive() {
         echo -n "[$(date +"%H:%M:%S")] Install to drive: "
         $PROJECT_DIR/bin/format.sh >/dev/null 2>&1
         echo -n "."
-        rsync --archive --copy-links --delete --exclude "$DRIVE_SOURCE/firmware" "$DRIVE_SOURCE/" "$DRIVE"
+        rsync \
+            --archive \
+            --copy-links \
+            --delete \
+            --exclude "$DRIVE_SOURCE/firmware" \
+            "$DRIVE_SOURCE/" "$DRIVE"
         echo -n "."
         sync
         echo "OK"
@@ -194,13 +199,13 @@ sync_drive() {
 
 install_layout() {
     if [[ -n "${LAYOUT:-}" ]]; then
-        ln -sf "$LAYOUT" "$DRIVE_SOURCE/layouts/layout.py"
+        ln -sf "$LAYOUT" "$DRIVE_SOURCE/config/layout.py"
     fi
 }
 
 install_board() {
     if [[ -n "${BOARD:-}" ]]; then
-        ln -sf "$BOARD" "$DRIVE_SOURCE/hardware/board.py"
+        ln -sf "$BOARD" "$DRIVE_SOURCE/config/board.py"
     fi
 }
 
