@@ -182,6 +182,7 @@ sync_drive() {
         "$DRIVE_SOURCE/" "$DRIVE" | wc -l
         ) != "4" ]; then
         echo -n "[$(date +"%H:%M:%S")] Install to drive: "
+        $PROJECT_DIR/bin/format.sh >/dev/null 2>&1
         echo -n "."
         rsync --archive --copy-links --delete --exclude "$DRIVE_SOURCE/firmware" "$DRIVE_SOURCE/" "$DRIVE"
         echo -n "."
