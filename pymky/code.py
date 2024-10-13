@@ -1,30 +1,23 @@
-from time import sleep
-
-from hardware.board import board
-from hardware.keypad import Keypad
-from hardware.led import Leds
-from logic.scan import scan
+from logic import init, tick
 
 
-def init() -> None:
+def boot() -> None:
     print("\n" * 5)
     print("#" * 120)
     print("# BOOTING")
     print("#" * 120)
-
-    Leds.Init()
-    Keypad.Init()
+    init()
 
 
 def main() -> None:
-    init()
+    boot()
 
     print()
     print("#" * 120)
     print("# LOOP")
     print("#" * 120)
     while True:
-        scan()
+        tick()
 
 
 if __name__ == "__main__":
