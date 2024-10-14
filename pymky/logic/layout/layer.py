@@ -1,5 +1,6 @@
 from config.layout import layout as layout_definition
 from hardware.led import Leds
+from logic.layout.key import Key
 
 
 class Layer:
@@ -14,8 +15,8 @@ class Layer:
             cls.__layers[layer_name] = Layer(layer_name, layer_definition)
 
     @classmethod
-    def Process(cls, event_data) -> list:
-        return cls.__active.process(event_data)
+    def Process(cls, switch_id: int, state: bool) -> list:
+        return cls.__active.process(switch_id, state)
 
     # @memory_cost("Layer")
     def __init__(self, layer_name: str, layer_definition: dict) -> None:
@@ -25,8 +26,7 @@ class Layer:
         for switch_id, keycode in enumerate(layer_definition["keys"]):
             switch_id += 1
             print(f"Switch {switch_id}: {keycode}")
-            self.__switch_to_keycode[switch_id] = [keycode]
-            # self.switch_to_keycode[switch_id] = Key.Load(keycode)
+            self.__switch_to_keycode[switch_id] = Key.Load(keycode)
 
         # Load layer color
         self.__color = layer_definition.get("color")
@@ -47,6 +47,12 @@ class Layer:
         for led_id in range(Leds.count):
             Leds.Set(led_id, self.__color)
 
-    def process(self, switch_id) -> list:
-        print(f"Layer {self.uid}: {switch_id} = {self.__switch_to_keycode[switch_id]}")
+    def process(self, switch_id: int, state: bool) -> list:
+        print(
+            f"Layer {self.uid}: {switch_id} = {self.__switch_to_keycode[switch_id].definition}"
+        )
+        if state:
+            self.__switch_to_keycode[switch_id].press()
+        else:
+            self.__switch_to_keycode[switch_id].release()
         return []
