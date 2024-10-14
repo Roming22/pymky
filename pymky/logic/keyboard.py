@@ -2,6 +2,7 @@ from hardware.led import Leds
 from logic.eventmanager import EventManager
 from logic.events import scan
 from logic.events.switch import Switch
+from logic.layout.layer import Layer
 
 
 class Keyboard:
@@ -9,19 +10,9 @@ class Keyboard:
     def Init(_) -> None:
         Switch.Init()
         Leds.Init()
+        Layer.Init()
 
     @classmethod
     def Tick(_) -> None:
         scan()
         EventManager.Process()
-        blink()
-
-
-from logic.context import Context
-
-
-def blink() -> None:
-    red = 255 if Context.count else 0
-    for led_id in range(Leds.count):
-        Leds.Set(led_id, (red, 0, 0))
-    Leds.Write()

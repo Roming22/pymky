@@ -1,5 +1,6 @@
 layout = {
     "alpha": {
+        "color": (255, 0 , 0),
         "keys": [
             # fmt: off
 "ESC",  "F",    "P",    "C",    "N",    "B",

@@ -37,7 +37,7 @@ parse_args(){
                 ;;
             -l|--layout)
                 shift
-                LAYOUT="$PROJECT_DIR/config/layout/$1.py"
+                LAYOUT="$PROJECT_DIR/config/layouts/$1.py"
                 ;;
             --dev)
                 DEV_MODE="1"
