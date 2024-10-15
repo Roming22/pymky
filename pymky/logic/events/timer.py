@@ -20,7 +20,7 @@ class Timer:
         EventManager.AddEvent((Timer.now, ("timer", self.name)))
 
     @classmethod
-    def Scan(cls, now) -> None:
+    def Scan(cls, now: float) -> None:
         cls.now = now
         for timer in list(cls.running):
             timer.update()

@@ -9,7 +9,7 @@ class EventManager:
     __now = 0
 
     @classmethod
-    def AddEvent(cls, event) -> None:
+    def AddEvent(cls, event: tuple) -> None:
         options = []
         for option in cls.__options:
             if option.process(event):

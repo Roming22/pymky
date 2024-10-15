@@ -6,13 +6,13 @@ from logic.layout.layer import Layer
 
 
 class Keyboard:
-    @classmethod
-    def Init(_) -> None:
+    @staticmethod
+    def Init() -> None:
         Switch.Init()
         Leds.Init()
         Layer.Init()
 
-    @classmethod
-    def Tick(_) -> None:
+    @staticmethod
+    def Tick() -> None:
         scan()
         EventManager.Process()

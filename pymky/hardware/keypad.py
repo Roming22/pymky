@@ -9,13 +9,13 @@ class Keypad:
 
     @classmethod
     def Init(cls) -> None:
-        def init_col(pin) -> None:
+        def init_col(pin: int) -> None:
             io = digitalio.DigitalInOut(pin)
             io.direction = digitalio.Direction.INPUT
             io.pull = digitalio.Pull.UP
             return io
 
-        def init_row(pin) -> None:
+        def init_row(pin: int) -> None:
             io = digitalio.DigitalInOut(pin)
             io.direction = digitalio.Direction.OUTPUT
             io.drive_mode = digitalio.DriveMode.PUSH_PULL

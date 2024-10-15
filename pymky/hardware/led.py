@@ -17,7 +17,7 @@ class Leds:
         cls.Write()
 
     @classmethod
-    def Set(cls, pixel_id, rgb) -> None:
+    def Set(cls, pixel_id: int, rgb: tuple[int]) -> None:
         cls.__pixels[pixel_id] = rgb
         cls.__refresh = True
 

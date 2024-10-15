@@ -14,7 +14,7 @@ class Switch:
         cls.__switch_value = [False for _ in range(Keypad.count)]
 
     @classmethod
-    def Scan(cls, now) -> None:
+    def Scan(cls, now: float) -> None:
         for index, value in Keypad.Matrix_Scan():
             if (
                 value != cls.__switch_value[index]

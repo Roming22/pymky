@@ -5,7 +5,7 @@ layout = {
             # fmt: off
 "ESC",  "F",    "P",    "C",    "N",    "B",
 "TAB",  "D",    "S",    "A",    "E",    "U",
-"LCTL", "LALT", "X",    "Z",    "V",    "",
+"LCTL", "LALT", "X",    "Z",    "V",    "COMMA",
                         "NO",   "NO",   "SPACE",    "LGUI", "NO",
         ],
         "combos": [],
