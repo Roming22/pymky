@@ -20,10 +20,10 @@ class EventManager:
     @classmethod
     def Process(cls) -> None:
         while len(cls.__options) <= 1 and cls.__buffer:
-            cls.__now, event_data = cls.__buffer.popleft()
+            cls.__now, event_type, event_data = cls.__buffer.popleft()
             print(f"# [{cls.__now}] Event: {".".join([str(d) for d in event_data])}")
-            if event_data[0] == "switch":
-                cls.__options = Layer.Process(event_data[1], event_data[2])
+            if event_type == "switch":
+                cls.__options = Layer.Process(event_data[0], event_data[1])
             if len(cls.__options) > 1:
                 options = []
                 for option in cls.__options:

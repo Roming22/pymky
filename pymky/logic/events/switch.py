@@ -24,8 +24,8 @@ class Switch:
                 cls.__switch_value[index] = value
                 event = (
                     now,
+                    "switch",
                     (
-                        "switch",
                         index + 1,
                         value,
                     ),
