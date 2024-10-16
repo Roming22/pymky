@@ -1,58 +1,39 @@
 from config.layout import layout as layout_definition
-from hardware.led import Leds
 from logic.layout.key import Key
+
+# from logic.layout.combo import Combo
 
 
 class Layer:
     """Holds the layer definition"""
 
-    __layers = {}
-    __active = None
+    default = None
+    layers = {}
 
     @classmethod
     def Init(cls):
         for layer_name, layer_definition in layout_definition.items():
-            cls.__layers[layer_name] = Layer(layer_name, layer_definition)
-
-    @classmethod
-    def Process(cls, switch_id: int, state: bool) -> list:
-        return cls.__active.process(switch_id, state)
+            cls.layers[layer_name] = Layer(layer_name, layer_definition)
 
     # @memory_cost("Layer")
     def __init__(self, layer_name: str, layer_definition: dict) -> None:
         print("Loading layer:", layer_name)
         self.uid = f"layer.{layer_name}"
-        self.__switch_to_keycode = {}
+        self.switch_to_keycode = {}
         for switch_id, keycode in enumerate(layer_definition["keys"]):
             switch_id += 1
             print(f"Switch {switch_id}: {keycode}")
-            self.__switch_to_keycode[switch_id] = Key.Load(keycode)
+            self.switch_to_keycode[switch_id] = Key.Load(keycode)
 
         # Load layer color
-        self.__color = layer_definition.get("color")
+        self.color = layer_definition.get("color")
 
         # Load combos
         # try:
-        #     self.combos = Combo.Load(layer_definition["combos"])
+        #     for switch_id, timelines in Combo.Load(layer_definition["combos"]):
+        #        self.__switch_to_keycode[switch_id] += timelines
         # except KeyError:
         #     print("No combo has been declared")
-        #     self.combos = []
 
-        if self.__active is None or layer_definition.get("default", False):
-            self.activate()
-
-    def activate(self) -> None:
-        print("Activating:", self.uid)
-        Layer.__active = self
-        for led_id in range(Leds.count):
-            Leds.Set(led_id, self.__color)
-
-    def process(self, switch_id: int, state: bool) -> list:
-        print(
-            f"Layer {self.uid}: {switch_id} = {self.__switch_to_keycode[switch_id].definition}"
-        )
-        if state:
-            self.__switch_to_keycode[switch_id].press()
-        else:
-            self.__switch_to_keycode[switch_id].release()
-        return []
+        if Layer.default is None or layer_definition.get("default", False):
+            Layer.default = self
