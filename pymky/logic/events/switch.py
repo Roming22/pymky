@@ -1,32 +1,29 @@
-from hardware.keypad import Keypad
 from logic.eventmanager import EventManager
 
 
 class Switch:
-    __debounce_delay = 5 * 1e-3
-    __switch_debounce = []
-    __switch_value = []
+    _debounce_delay = 5 * 1e-3
+    _scan_func = None
+    _switch_debounce = []
+    _switch_value = []
 
     @classmethod
-    def Init(cls) -> None:
-        Keypad.Init()
-        cls.__switch_debounce = [0 for _ in range(Keypad.count)]
-        cls.__switch_value = [False for _ in range(Keypad.count)]
+    def Init(cls, switch_count: int, scan_func: callable) -> None:
+        cls._scan_func = scan_func
+        cls._switch_debounce = [0 for _ in range(switch_count)]
+        cls._switch_value = [False for _ in range(switch_count)]
 
     @classmethod
     def Scan(cls, now: float) -> None:
-        for index, value in Keypad.Matrix_Scan():
-            if (
-                value != cls.__switch_value[index]
-                and now > cls.__switch_debounce[index]
-            ):
-                cls.__switch_debounce[index] = now + cls.__debounce_delay
-                cls.__switch_value[index] = value
+        for index, value in cls._scan_func():
+            if value != cls._switch_value[index] and now > cls._switch_debounce[index]:
+                cls._switch_debounce[index] = now + cls._debounce_delay
+                cls._switch_value[index] = value
                 event = (
                     now,
                     "switch",
                     (
-                        index + 1,
+                        index,
                         value,
                     ),
                 )

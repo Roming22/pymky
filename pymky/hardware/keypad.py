@@ -1,5 +1,7 @@
 import digitalio
 from config.board import board
+from logic.actions.switch import Switch as SwitchAction
+from logic.events.switch import Switch as SwitchEvent
 
 
 class Keypad:
@@ -25,6 +27,9 @@ class Keypad:
         cls.__cols = [init_col(pin) for pin in board["pins"]["cols"]]
         cls.__rows = [init_row(pin) for pin in board["pins"]["rows"]]
         cls.count = len(cls.__cols) * len(cls.__rows)
+
+        SwitchAction.Init(cls.count)
+        SwitchEvent.Init(cls.count, cls.Matrix_Scan)
 
     @classmethod
     def Matrix_Scan(cls) -> Generator[tuple[int, bool]]:
