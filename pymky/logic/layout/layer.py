@@ -19,10 +19,10 @@ class Layer:
     def __init__(self, layer_name: str, layer_definition: dict) -> None:
         print("Loading layer:", layer_name)
         self.uid = f"layer.{layer_name}"
-        self.switch_to_action = {}
+        self.switch_to_timelines = {}
         for switch_id, keycode in enumerate(layer_definition["keys"]):
             print(f"Switch {switch_id}: {keycode}")
-            self.switch_to_action[switch_id] = Key.Load(switch_id, keycode)
+            self.switch_to_timelines[switch_id] = Key.Load(switch_id, keycode)
 
         # Load layer color
         self.color = layer_definition.get("color")
@@ -30,7 +30,7 @@ class Layer:
         # Load combos
         # try:
         #     for switch_id, timelines in Combo.Load(layer_definition["combos"]):
-        #        self.switch_to_action[switch_id] += timelines
+        #        self.switch_to_timelines[switch_id] += timelines
         # except KeyError:
         #     print("No combo has been declared")
 

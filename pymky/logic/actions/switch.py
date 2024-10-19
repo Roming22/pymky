@@ -1,3 +1,6 @@
+from logic.events.event import Event
+
+
 class Switch:
     _press_actions = []
     _release_actions = []
@@ -13,8 +16,8 @@ class Switch:
         cls._press_actions[switch_id] = action
 
     @classmethod
-    def Process(cls, event: tuple) -> None:
-        switch_id, state = event
+    def Process(cls, event: Event) -> None:
+        switch_id, state = event.data
         print(f"Switch {switch_id} state: {state}")
         if state:
             actions = cls._press_actions

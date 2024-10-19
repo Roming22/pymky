@@ -1,7 +1,7 @@
 from collections import deque
 
-from logic.actions.switch import Switch
 from logic.events.time import Time
+from logic.quantum.timeline_manager import TimelineManager
 
 
 class EventManager:
@@ -9,11 +9,11 @@ class EventManager:
 
     @classmethod
     def AddEvent(cls, event: tuple) -> None:
+        # print(f"Event: {event.id}")
         cls._buffer.append(event)
 
     @classmethod
     def Process(cls) -> None:
         while cls._buffer:
-            Time.now, event_type, event_data = cls._buffer.popleft()
-            if event_type == "switch":
-                Switch.Process(event_data)
+            event = cls._buffer.popleft()
+            TimelineManager.Process(event)
