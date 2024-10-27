@@ -1,4 +1,3 @@
-from logic.eventmanager import EventManager
 from logic.events.event import Event
 from logic.events.time import Time
 
@@ -22,7 +21,7 @@ class Switch:
             if value != cls._switch_value[index] and now > cls._switch_debounce[index]:
                 cls._switch_debounce[index] = now + cls._debounce_delay
                 cls._switch_value[index] = value
-                event = Event(
+                Event(
                     now,
                     "switch",
                     (
@@ -30,4 +29,3 @@ class Switch:
                         bool(value),
                     ),
                 )
-                EventManager.AddEvent(event)

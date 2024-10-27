@@ -1,4 +1,3 @@
-from logic.eventmanager import EventManager
 from logic.events.event import Event
 from logic.events.time import Time
 
@@ -18,8 +17,7 @@ class Timer:
             return
         # print(f"    Timer: {self.name} triggered")
         Timer._running.remove(self)
-        event = Event(Time.now, "timer", (self.name))
-        EventManager.AddEvent(event)
+        Event(Time.now, "timer", (self.name,))
 
     @classmethod
     def Scan(cls) -> None:

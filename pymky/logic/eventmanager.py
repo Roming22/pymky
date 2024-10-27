@@ -1,19 +1,10 @@
-from collections import deque
-
-from logic.events.time import Time
+from logic.events.event import Event
 from logic.quantum.timeline_manager import TimelineManager
 
 
 class EventManager:
-    _buffer = deque([], 32)
-
-    @classmethod
-    def AddEvent(cls, event: tuple) -> None:
-        # print(f"Event: {event.id}")
-        cls._buffer.append(event)
-
     @classmethod
     def Process(cls) -> None:
-        while cls._buffer:
-            event = cls._buffer.popleft()
+        while Event.events:
+            event = Event.events.pop()
             TimelineManager.Process(event)

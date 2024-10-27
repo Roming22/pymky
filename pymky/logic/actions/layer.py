@@ -22,10 +22,12 @@ class Layer:
         cls._layers.append(layer)
         for led_id in range(Leds.count):
             Leds.Set(led_id, layer.color)
-        for switch_id, timeline in layer.switch_to_timelines.items():
-            if timeline:
-                cls._switch_to_timeline[switch_id] = timeline
+        for switch_id, timelines in layer.switch_to_timelines.items():
+            if timelines:
+                cls._switch_to_timeline[switch_id] = timelines
 
     @classmethod
     def Process(cls, switch_id: int) -> list:
-        return cls._switch_to_timeline[switch_id]
+        # Return copy of the timeline list, so it can be
+        # manipulated without impacting the reference.
+        return list(cls._switch_to_timeline[switch_id])

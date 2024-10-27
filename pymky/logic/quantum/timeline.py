@@ -4,8 +4,13 @@ class Timeline:
         self.valid = True
         self.activate = activate_func
 
-    def activate(self, timestamp: float) -> None:
+    def activate(self) -> None:
         raise NotImplemented("Timeline.activate not implemented")
 
+    def commit(self) -> None:
+        raise NotImplemented("Timeline.commit not implemented")
+
     def process(self, event_id: str) -> bool:
+        _not = " not" if event_id not in self._forbidden_events else ""
+        print(f"{event_id}{_not} in {self._forbidden_events}")
         return event_id not in self._forbidden_events
