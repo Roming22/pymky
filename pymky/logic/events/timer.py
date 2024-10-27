@@ -5,9 +5,9 @@ from logic.events.time import Time
 class Timer:
     _running: list["Timer"] = []
 
-    def __init__(self, name: str, delay: float) -> None:
+    def __init__(self, name: str, now: float, delay: float) -> None:
         # print("Timer:", name)
-        self.end_at = Time.timeline + delay
+        self.end_at = now + delay
         self.name = name
         Timer._running.append(self)
 
@@ -23,3 +23,7 @@ class Timer:
     def Scan(cls) -> None:
         for timer in list(cls._running):
             timer.update()
+
+    @classmethod
+    def Clear(cls) -> None:
+        cls._running.clear

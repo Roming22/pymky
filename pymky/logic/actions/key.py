@@ -9,7 +9,6 @@ class Key:
         key = UsbKey.Load(key_definition)
 
         def action() -> None:
-            print(f"Activating {switch_id}")
             Switch._press_actions[switch_id] = key.press
             Switch._release_actions[switch_id] = key.release
 

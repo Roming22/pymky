@@ -18,7 +18,7 @@ class Layer:
 
     @classmethod
     def Activate(cls, layer: LayerDefinition) -> None:
-        print("Activating:", layer.uid)
+        print(f"Layer: Activating {layer.uid}")
         cls._layers.append(layer)
         for led_id in range(Leds.count):
             Leds.Set(led_id, layer.color)
