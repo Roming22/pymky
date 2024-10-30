@@ -3,7 +3,6 @@ from logic.actions.switch import Switch
 
 
 class Key:
-
     @classmethod
     def Load(cls, switch_id: int, key_definition: str) -> callable:
         key = UsbKey.Load(key_definition)

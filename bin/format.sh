@@ -34,8 +34,8 @@ parse_args(){
 }
 
 format_python() {
-    isort --skip-gitignore --overwrite-in-place --profile black "$SOURCE_DIR"
-    black "$SOURCE_DIR"
+    ruff check --fix "$SOURCE_DIR"
+    ruff format "$SOURCE_DIR"
 }
 
 SOURCE_DIR="$PROJECT_DIR/pymky"

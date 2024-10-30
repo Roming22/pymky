@@ -39,7 +39,7 @@ class UsbKey:
     }
 
     @classmethod
-    def Load(cls, key_definition: str) -> UsbKey:
+    def Load(cls, key_definition: str) -> "UsbKey":
         try:
             return cls._keys[key_definition]
         except KeyError:

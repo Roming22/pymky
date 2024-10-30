@@ -5,10 +5,10 @@ class Timeline:
         self.activate = activate_func
 
     def activate(self, now: float) -> None:
-        raise NotImplemented("Timeline.activate not implemented")
+        raise NotImplementedError("Timeline.activate not implemented")
 
     def commit(self) -> None:
-        raise NotImplemented("Timeline.commit not implemented")
+        raise NotImplementedError("Timeline.commit not implemented")
 
     def process(self, event_id: str) -> bool:
         # _not = " not" if event_id not in self._forbidden_events else ""

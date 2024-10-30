@@ -32,7 +32,8 @@ class Keypad:
         SwitchEvent.Init(cls.count, cls.Matrix_Scan)
 
     @classmethod
-    def Matrix_Scan(cls) -> Generator[tuple[int, bool]]:
+    # Returns a Generator
+    def Matrix_Scan(cls) -> tuple[int, bool]:
         index = -1
         for row in cls.__rows:
             row.value = 0
