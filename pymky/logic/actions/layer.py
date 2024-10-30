@@ -12,7 +12,7 @@ class Layer:
         LayerDefinition.Init()
         if not cls._switch_to_timeline:
             cls._switch_to_timeline = [
-                None for _ in LayerDefinition.default.switch_to_timelines
+                [] for _ in LayerDefinition.default.switch_to_timelines
             ]
         cls.Activate(LayerDefinition.default)
 

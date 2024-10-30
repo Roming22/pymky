@@ -1,4 +1,5 @@
 from logic.events.event import Event
+from utils.noop import no_op
 
 
 class Switch:
@@ -7,8 +8,8 @@ class Switch:
 
     @classmethod
     def Init(cls, switch_count: int) -> None:
-        cls._press_actions = [None for _ in range(switch_count)]
-        cls._release_actions = [None for _ in range(switch_count)]
+        cls._press_actions = [no_op for _ in range(switch_count)]
+        cls._release_actions = [no_op for _ in range(switch_count)]
 
     @classmethod
     def SetAction(cls, switch_id: int, action: callable) -> None:

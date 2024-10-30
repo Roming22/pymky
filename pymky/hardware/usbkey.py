@@ -13,6 +13,8 @@ except ModuleNotFoundError as ex:
     _kbd = None
     Keycode = None
 
+from utils.noop import no_op
+
 
 class UsbKey:
     _keys = {}
@@ -68,9 +70,6 @@ class UsbKey:
 
     @classmethod
     def _get_actions(cls, key_definition: str) -> tuple[callable, callable]:
-        def no_op() -> None:
-            pass
-
         try:
             keycodes = cls._get_keycodes_for(key_definition)
         except AttributeError:
