@@ -1,5 +1,6 @@
-from config.board import board
 from neopixel import NeoPixel
+
+from config.board import board
 
 
 class Leds:

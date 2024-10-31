@@ -1,5 +1,7 @@
-from config.layout import layout as layout_definition
 from logic.layout.key import Key
+
+from config.layout import layout as layout_definition
+from logic.actions.layer import Layer as LayerAction
 
 # from logic.layout.combo import Combo
 
@@ -7,18 +9,17 @@ from logic.layout.key import Key
 class Layer:
     """Holds the layer definition"""
 
-    default = None
-    layers = {}
-
     @classmethod
-    def Init(cls) -> None:
+    def Init(_) -> None:
+        layers = {}
         for layer_name, layer_definition in layout_definition.items():
-            cls.layers[layer_name] = Layer(layer_name, layer_definition)
+            layers[layer_name] = Layer(layer_name, layer_definition)
 
     # @memory_cost("Layer")
     def __init__(self, layer_name: str, layer_definition: dict) -> None:
         print("Loading layer:", layer_name)
         self.uid = f"layer.{layer_name}"
+        self.default = layer_definition.get("default", False)
         self.switch_to_timelines = {}
         for switch_id, keycode in enumerate(layer_definition["keys"]):
             print(f"Switch {switch_id}: {keycode}")
@@ -34,5 +35,4 @@ class Layer:
         # except KeyError:
         #     print("No combo has been declared")
 
-        if Layer.default is None or layer_definition.get("default", False):
-            Layer.default = self
+        LayerAction.RegisterLayer(layer_name, self)

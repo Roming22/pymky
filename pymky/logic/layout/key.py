@@ -2,11 +2,13 @@ import re
 
 from logic.quantum.timeline_keycode import TimelineKeycode
 from logic.quantum.timeline_taphold import TimelineTapHold
+from logic.quantum.timeline_layer import TimelineLayer
 
 
 class Key:
     _loader_map = {
         "KC": TimelineKeycode.Load,
+        "LC": TimelineLayer.Load,
         "TH": TimelineTapHold.Load,
     }
 

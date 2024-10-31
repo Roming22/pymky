@@ -1,7 +1,8 @@
 import digitalio
-from config.board import board
 from logic.actions.switch import Switch as SwitchAction
 from logic.events.switch import Switch as SwitchEvent
+
+from config.board import board
 
 
 class Keypad:
