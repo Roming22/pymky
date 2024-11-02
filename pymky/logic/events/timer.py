@@ -19,6 +19,12 @@ class Timer:
         Timer._running.remove(self)
         Event(Time.now, "timer", (self.name,))
 
+    def stop(self) -> None:
+        try:
+            Timer._running.remove(self)
+        except ValueError:
+            pass
+
     @classmethod
     def Scan(cls) -> None:
         for timer in list(cls._running):

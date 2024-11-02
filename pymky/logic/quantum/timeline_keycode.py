@@ -9,8 +9,8 @@ class TimelineKeycode(Timeline):
         return timelines
 
     def __init__(self, switch_id: int, key_definition: str) -> None:
+        super().__init__()
         self.id = f"timeline.{switch_id}.{key_definition}"
-        self._forbidden_events = []
         self.commit = KeyAction.Load(switch_id, key_definition)
 
     def activate(self, now: float) -> None:

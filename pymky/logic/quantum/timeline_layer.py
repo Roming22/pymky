@@ -24,8 +24,8 @@ class TimelineLayerMomentary(Timeline):
         return timelines
 
     def __init__(self, switch_id: int, key_definition: str) -> None:
+        super().__init__()
         self.id = f"timeline.{switch_id}.layer-momentary.{key_definition}"
-        self._forbidden_events = []
         self.commit = LayerAction.LoadMomentary(switch_id, key_definition)
 
     def activate(self, now: float) -> None:

@@ -9,8 +9,8 @@ class TimelineNoOp(Timeline):
         return timelines
 
     def __init__(self, switch_id: int) -> None:
+        super().__init__()
         self.id = f"timeline.{switch_id}.no-op"
-        self._forbidden_events = []
         self.commit = NoOpAction.Load(switch_id)
 
     def activate(self, now: float) -> None:
