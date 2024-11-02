@@ -1,7 +1,6 @@
 from logic.actions.layer import Layer
 from logic.actions.switch import Switch
 from logic.events.event import Event
-from logic.events.timer import Timer
 
 
 class TimelineManager:
@@ -25,7 +24,9 @@ class TimelineManager:
     @classmethod
     def Resolve(cls) -> None:
         if not cls.IsResolved():
-            print(f"Timeline: Unresolved; event count: {len(cls._buffered_events)}")
+            print(
+                f"Timeline: Unresolved: {len(cls._timelines)}; event count: {len(cls._buffered_events)}"
+            )
             return
         print(f"Timeline: Resolved; event count: {len(cls._buffered_events)}")
 
@@ -62,16 +63,27 @@ class TimelineManager:
 
     @classmethod
     def ToTimelines(cls, event: Event) -> None:
-        timelines = [(i, t) for i, t in enumerate(cls._timelines)]
+        # Select which timelines get notified of the event
+        if event.timeline_ids:
+            timelines = [
+                (i, t)
+                for i, t in enumerate(cls._timelines)
+                if t.id in event.timeline_ids
+            ]
+        else:
+            timelines = [(i, t) for i, t in enumerate(cls._timelines)]
+
+        # Send event to the timelines, removing timelines that
+        # become invalid
         for index, timeline in reversed(timelines):
             if not timeline.process(event.id):
                 cls._timelines.pop(index)
                 print(f"Timeline: {timeline.id} deleted")
 
+        # If only one timeline is left, commit the timeline
         if len(cls._timelines) == 1:
             timeline = cls._timelines.pop()
             print(
                 f"Timeline: Resolving to {timeline.id}; event count: {len(cls._buffered_events)}"
             )
             timeline.commit()
-            Timer.Clear()

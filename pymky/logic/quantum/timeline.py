@@ -12,6 +12,7 @@ class Timeline:
     def process(self, event_id: str) -> bool:
         # _not = " not" if event_id not in self._forbidden_events else ""
         # print(f"{self.id}: {event_id}{_not} in {self._forbidden_events}")
+        print(f"{self.id}: {event_id}")
         is_valid = event_id not in self._forbidden_events
         if not is_valid:
             for timer in self._timers:

@@ -22,6 +22,7 @@ class TimelineTapHold(Timeline):
                     f"taphold.{switch_id}",
                     now,
                     self._delay,
+                    self.id,
                 )
             )
         else:
