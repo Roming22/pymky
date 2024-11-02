@@ -17,7 +17,9 @@ class Key:
     @classmethod
     def Load(cls, switch_id: int, key_definition: str) -> list:
         print(f"Loading timelines for Keycode {key_definition}")
-        if key_definition is None:
+        if key_definition == "____":
+            return []
+        elif key_definition is None:
             key_definition = "NO"
         loader, definition = cls.Parse(key_definition)
         timelines = loader(switch_id, definition)
