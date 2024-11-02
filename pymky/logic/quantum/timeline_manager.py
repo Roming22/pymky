@@ -62,9 +62,10 @@ class TimelineManager:
 
     @classmethod
     def ToTimelines(cls, event: Event) -> None:
-        for index, timeline in enumerate(reversed(cls._timelines)):
+        timelines = [(i, t) for i, t in enumerate(cls._timelines)]
+        for index, timeline in reversed(timelines):
             if not timeline.process(event.id):
-                cls._timelines.pop(-1 - index)
+                cls._timelines.pop(index)
                 print(f"Timeline: {timeline.id} deleted")
 
         if len(cls._timelines) == 1:
