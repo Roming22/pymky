@@ -1,23 +1,24 @@
 import re
 
 from logic.quantum.timeline_keycode import TimelineKeycode
-from logic.quantum.timeline_taphold import TimelineTapHold
 from logic.quantum.timeline_layer import TimelineLayer
+from logic.quantum.timeline_noop import TimelineNoOp
+from logic.quantum.timeline_taphold import TimelineTapHold
 
 
 class Key:
     _loader_map = {
         "KC": TimelineKeycode.Load,
         "LC": TimelineLayer.Load,
+        "NO": TimelineNoOp.Load,
         "TH": TimelineTapHold.Load,
     }
 
     @classmethod
     def Load(cls, switch_id: int, key_definition: str) -> list:
         print(f"Loading timelines for Keycode {key_definition}")
-        timelines = []
-        if key_definition in ["NO", None]:
-            return timelines
+        if key_definition is None:
+            key_definition = "NO"
         loader, definition = cls.Parse(key_definition)
         timelines = loader(switch_id, definition)
         for timeline in timelines:
@@ -30,6 +31,9 @@ class Key:
         if m:
             func, data = m.groups()
             data = data.split(",")
+        elif key_definition == "NO":
+            func = "NO"
+            data = []
         else:
             func = "KC"
             data = [
