@@ -1,7 +1,7 @@
 import re
 
 from logic.quantum.timeline_keycode import TimelineKeycode
-from logic.quantum.timeline_layer import TimelineLayer
+from logic.quantum.timeline_layer import TimelineLayerChange, TimelineLayerMomentary
 from logic.quantum.timeline_noop import TimelineNoOp
 from logic.quantum.timeline_taphold import TimelineTapHold
 
@@ -9,7 +9,8 @@ from logic.quantum.timeline_taphold import TimelineTapHold
 class Key:
     _loader_map = {
         "KC": TimelineKeycode.Load,
-        "LC": TimelineLayer.Load,
+        "LC": TimelineLayerChange.Load,
+        "LM": TimelineLayerMomentary.Load,
         "NO": TimelineNoOp.Load,
         "TH": TimelineTapHold.Load,
     }
