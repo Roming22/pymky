@@ -1,7 +1,7 @@
+from logic.actions.layer import Layer as LayerAction
 from logic.layout.key import Key
 
 from config.layout import layout as layout_definition
-from logic.actions.layer import Layer as LayerAction
 
 # from logic.layout.combo import Combo
 

@@ -35,6 +35,7 @@ parse_args(){
 
 format_python() {
     ruff check --fix "$SOURCE_DIR"
+    ruff check --select I --fix "$SOURCE_DIR"
     ruff format "$SOURCE_DIR"
 }
 
