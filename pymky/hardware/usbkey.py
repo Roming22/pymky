@@ -53,6 +53,7 @@ class UsbKey:
         "=": "KEYPAD_EQUALS",
         ".": "KEYPAD_PERIOD",
     }
+    _state = {}
 
     @classmethod
     def Load(cls, key_definition: str) -> "UsbKey":
@@ -76,7 +77,10 @@ class UsbKey:
                 keycodes = [keycodes]
         else:
             keycodes = [keycode]
-        return [getattr(Keycode, kc) for kc in keycodes]
+        keycodes = [getattr(Keycode, kc) for kc in keycodes]
+        for kc in keycodes:
+            UsbKey._state[kc] = 0
+        return keycodes
 
     def __init__(self, key_definition: str) -> None:
         self.definition = key_definition
@@ -94,12 +98,15 @@ class UsbKey:
         def press() -> None:
             print(f"Press {key_definition}")
             for kc in keycodes:
+                UsbKey._state[kc] += 1
                 _kbd.press(kc)
 
         # Release key(s)
         def release() -> None:
             print(f"Release {key_definition}")
             for kc in reversed(keycodes):
-                _kbd.release(kc)
+                UsbKey._state[kc] -= 1
+                if not UsbKey._state[kc]:
+                    _kbd.release(kc)
 
         return (press, release)

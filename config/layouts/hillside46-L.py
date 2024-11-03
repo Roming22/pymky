@@ -7,7 +7,7 @@ layout = {
 "ESC",              "F",    "TH(P, LALT)",  "TH(C, LCTL)",  "TH(N, LSFT)",  "B",
 "TH(TAB, LSFT)",    "D",    "S",            "A",            "E",            "U",
 "LCTL",             "LALT", "X",            "Z",            "V",            "COMMA",
-                                            "NO",           "LM(nums)",     "SPACE",    "LGUI", "NO",
+                                            "NO",           "LM(nums)",     "SPACE",    "LGUI", "U",
         ],
         "combos": [],
     },
