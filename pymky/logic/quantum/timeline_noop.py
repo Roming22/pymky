@@ -4,14 +4,13 @@ from logic.quantum.timeline import Timeline
 
 class TimelineNoOp(Timeline):
     @classmethod
-    def Load(cls, switch_id: int, key_definition: tuple) -> list:
+    def Load(cls, switch_id: int, _: tuple) -> list:
         timelines = [cls(switch_id)]
         return timelines
 
     def __init__(self, switch_id: int) -> None:
-        super().__init__()
-        self.id = f"timeline.{switch_id}.no-op"
-        self.commit = NoOpAction.Load(switch_id)
+        super().__init__(f"timeline.{switch_id}.no-op")
+        self._commit_funcs.append(NoOpAction.Load(switch_id))
 
     def activate(self, now: float) -> None:
         pass

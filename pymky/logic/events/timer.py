@@ -28,5 +28,5 @@ class Timer:
 
     @classmethod
     def Scan(cls) -> None:
-        for timer in list(cls._running):
+        for timer in cls._running.copy():
             timer.update()

@@ -84,4 +84,4 @@ class Layer:
     def Process(cls, switch_id: int) -> list:
         # Return copy of the timeline list, so it can be
         # manipulated without impacting the reference.
-        return list(cls._switch_to_timeline[switch_id])
+        return cls._switch_to_timeline[switch_id].copy()

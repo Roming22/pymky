@@ -9,9 +9,8 @@ class TimelineLayerChange(Timeline):
         return timelines
 
     def __init__(self, switch_id: int, key_definition: str) -> None:
-        self.id = f"timeline.{switch_id}.layer-change.{key_definition}"
-        self._forbidden_events = []
-        self.commit = LayerAction.LoadChange(switch_id, key_definition)
+        super().__init__(f"timeline.{switch_id}.layer-change.{key_definition}")
+        self._commit_funcs.append(LayerAction.LoadChange(switch_id, key_definition))
 
     def activate(self, now: float) -> None:
         pass
@@ -24,9 +23,8 @@ class TimelineLayerMomentary(Timeline):
         return timelines
 
     def __init__(self, switch_id: int, key_definition: str) -> None:
-        super().__init__()
-        self.id = f"timeline.{switch_id}.layer-momentary.{key_definition}"
-        self.commit = LayerAction.LoadMomentary(switch_id, key_definition)
+        super().__init__(f"timeline.{switch_id}.layer-momentary.{key_definition}")
+        self._commit_funcs.append(LayerAction.LoadMomentary(switch_id, key_definition))
 
     def activate(self, now: float) -> None:
         pass

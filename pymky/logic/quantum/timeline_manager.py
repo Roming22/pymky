@@ -13,13 +13,15 @@ class TimelineManager:
 
     @classmethod
     def Process(cls, event: Event) -> None:
-        print(f"Timeline: received event {event.id} @{event.time}")
+        print()
+        print(f"# New event: {event.id} @{event.time}")
         cls.ToLayer(event)
         cls.ToTimelines(event)
         if event.type == "switch":
             cls._buffered_events.append(event)
         if cls._buffered_events:
             cls.Resolve()
+        print()
 
     @classmethod
     def Resolve(cls) -> None:
@@ -33,7 +35,7 @@ class TimelineManager:
         cls.ToSwitch(cls._buffered_events.pop(0))
         print(f"Timeline: After event count: {len(cls._buffered_events)}")
 
-        replay_events = list(cls._buffered_events)
+        replay_events = cls._buffered_events.copy()
         cls._buffered_events.clear()
         for index, event in enumerate(replay_events):
             print(
