@@ -3,7 +3,7 @@ from logic.events.time import Time
 
 
 class Switch:
-    _debounce_delay = 20 * 1e-3
+    _debounce_delay = 25 * 1e-3
     _scan_func = None
     _switch_debounce = []
     _switch_value = []
