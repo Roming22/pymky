@@ -1,9 +1,8 @@
 from logic.actions.layer import Layer as LayerAction
+from logic.layout.combo import Combo
 from logic.layout.key import Key
 
 from config.layout import layout as layout_definition
-
-# from logic.layout.combo import Combo
 
 
 class Layer:
@@ -40,11 +39,10 @@ class Layer:
             self.switch_to_timelines[switch_id] = Key.Load(switch_id, keycode)
 
         # Load combos
-        # try:
-        #     for switch_id, timelines in Combo.Load(layer_definition["combos"]):
-        #        self.switch_to_timelines[switch_id] += timelines
-        # except KeyError:
-        #     print("No combo has been declared")
+        for switch_ids, keycode in layer_definition["combos"].items():
+            timelines = Combo.Load(switch_ids, keycode)
+            for switch_id in switch_ids:
+                self.switch_to_timelines[switch_id].extend(timelines)
 
         LayerAction.RegisterLayer(layer_name, self)
 

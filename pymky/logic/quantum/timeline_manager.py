@@ -12,19 +12,23 @@ class TimelineManager:
         return not cls._timelines
 
     @classmethod
-    def Process(cls, event: Event) -> None:
+    def Process(cls, event: Event, is_replay: bool = False) -> None:
         print()
         print(f"# New event: {event.id} @{event.time}")
         cls.ToLayer(event)
         cls.ToTimelines(event)
         if event.type == "switch":
-            cls._buffered_events.append(event)
+            if is_replay:
+                cls.ToSwitch(event)
+            else:
+                cls._buffered_events.append(event)
         if cls._buffered_events:
             cls.Resolve()
         print()
 
     @classmethod
     def Resolve(cls) -> None:
+        print(f"Events: {[e.id for e in cls._buffered_events]}")
         if not cls.IsResolved():
             print(
                 f"Timeline: Unresolved: {len(cls._timelines)}; event count: {len(cls._buffered_events)}"
@@ -32,16 +36,13 @@ class TimelineManager:
             return
         print(f"Timeline: Resolved; event count: {len(cls._buffered_events)}")
 
-        cls.ToSwitch(cls._buffered_events.pop(0))
-        print(f"Timeline: After event count: {len(cls._buffered_events)}")
-
         replay_events = cls._buffered_events.copy()
         cls._buffered_events.clear()
         for index, event in enumerate(replay_events):
             print(
                 f"Timeline: Replaying event {index+1}/{len(replay_events)}: {event.id}"
             )
-            cls.Process(event)
+            cls.Process(event, True)
 
     @classmethod
     def ToLayer(cls, event: Event) -> None:
@@ -49,12 +50,15 @@ class TimelineManager:
             # New timelines can be created only on a switch pressed event
             return
 
+        print(f"{event.type}, {event.data}")
         if event.type != "switch":
             return
 
         switch_id, state = event.data
         if state:
+            print("Creating new timelines")
             cls._timelines = Layer.Process(switch_id)
+            print(f"{len(cls._timelines)} timeline(s) created")
             for timeline in cls._timelines:
                 timeline.activate(event.time)
 

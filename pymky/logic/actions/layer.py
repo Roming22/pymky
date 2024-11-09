@@ -8,6 +8,7 @@ class Layer:
     _layers = {}
     _active_layers = []
     _switch_to_timeline = []
+    _activated_switches = []
 
     @classmethod
     def RegisterLayer(cls, layer_name: str, layer: object) -> None:
@@ -81,7 +82,20 @@ class Layer:
         return action
 
     @classmethod
+    def ActivateSwitch(cls, switch_id: int) -> None:
+        print(f"Layer activate switch: {switch_id}")
+        cls._activated_switches.append(switch_id)
+
+    @classmethod
     def Process(cls, switch_id: int) -> list:
+        print(f"Activated switches: {cls._activated_switches}")
+        try:
+            cls._activated_switches.remove(switch_id)
+            print("Switch activated")
+            return []
+        except ValueError:
+            pass
+
         # Return copy of the timeline list, so it can be
         # manipulated without impacting the reference.
         return cls._switch_to_timeline[switch_id].copy()

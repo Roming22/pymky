@@ -17,15 +17,13 @@ class Key:
 
     @classmethod
     def Load(cls, switch_id: int, key_definition: str) -> list:
-        print(f"Loading timelines for Keycode {key_definition}")
+        # print(f"Loading timelines for Keycode {key_definition}")
         if key_definition == "____":
             return []
         elif key_definition is None:
             key_definition = "NO"
         loader, definition = cls.Parse(key_definition)
         timelines = loader(switch_id, definition)
-        for timeline in timelines:
-            print(f"{type(timeline)}")
         return timelines
 
     @classmethod
@@ -43,6 +41,6 @@ class Key:
                 key_definition,
             ]
         data = [d.strip(" ") for d in data]
-        print(f"Definition: {func}{data}")
+        # print(f"Definition: {func}{data}")
         loader = cls._loader_map[func]
         return (loader, data)

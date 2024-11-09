@@ -96,17 +96,18 @@ class UsbKey:
 
         # Press key(s)
         def press() -> None:
-            print(f"Press {key_definition}")
             for kc in keycodes:
+                if not UsbKey._state[kc]:
+                    print(f"Press {key_definition}")
+                    _kbd.press(kc)
                 UsbKey._state[kc] += 1
-                _kbd.press(kc)
 
         # Release key(s)
         def release() -> None:
-            print(f"Release {key_definition}")
             for kc in reversed(keycodes):
                 UsbKey._state[kc] -= 1
                 if not UsbKey._state[kc]:
+                    print(f"Release {key_definition}")
                     _kbd.release(kc)
 
         return (press, release)

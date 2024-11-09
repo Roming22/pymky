@@ -3,6 +3,8 @@ class Timeline:
         self.id = id
         self._forbidden_events = []
         self._timers = []
+        self._valid_events = []
+        self._pending_events = []
         self._commit_funcs = []
 
     def activate(self, now: float) -> None:
@@ -18,6 +20,10 @@ class Timeline:
         is_valid = True
         if self._forbidden_events:
             is_valid = event_id not in self._forbidden_events
+        # print(f"isValid: {is_valid}")
+        if self._pending_events:
+            is_valid = event_id in self._pending_events
+        # print(f"isValid: {is_valid}")
         if not is_valid:
             for timer in self._timers:
                 timer.stop()

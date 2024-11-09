@@ -22,6 +22,7 @@ class TimelineTap(Timeline):
     def __init__(self, switch_id: int, key_definition: str) -> None:
         super().__init__(f"timeline.{switch_id}.tap.{key_definition}")
         self._forbidden_events.append(f"timer.taphold.{switch_id}")
+        self._forbidden_events.append("combo.activated")
         self._commit_funcs.append(KeyAction.Load(switch_id, key_definition))
 
     def activate(self, now: float) -> None:
@@ -45,6 +46,7 @@ class TimelineHold(Timeline):
     def __init__(self, switch_id: int, key_definition: str) -> None:
         super().__init__(f"timeline.{switch_id}.hold.{key_definition}")
         self._forbidden_events.append(f"switch.{switch_id}.False")
+        self._forbidden_events.append("combo.activated")
         self._commit_funcs.append(KeyAction.Load(switch_id, key_definition))
 
     def activate(self, now: float) -> None:
